@@ -1,0 +1,53 @@
+#VERSÃO 1 DE CLASSIFICAÇÃO DE IMAGENS FACIAIS FRONTAIS.
+
+#Aplicando um classificador para reconhecimento de imagem, utilizando a biblioteca opencv. 
+#Haarcascade_frontalface_alt.xml fornecido pela opencv com os parametros de classificacao.
+
+
+# Instalar o OpenCV
+!pip install opencv-python
+
+Collecting opencv-python
+Downloading https://files.pythonhosted.org/packages/96/30/99bd865802cd5f425c42efd2ee4e10bd3bc605640008f03e3c72a1dbe320
+/opencv_python-4.0.0.21-cp36-cp36m-win_amd64.whl (30.4MB)
+Requirement already satisfied: numpy>=1.11.3 in c:\anaconda\lib\site-packages (from opencv-python) (1.15.4)
+Installing collected packages: opencv-python
+Successfully installed opencv-python-4.0.0.21
+Collecting opencv-python
+
+# Importa o modulo do opencv
+import cv2
+
+cv2.__version__
+'4.0.0'
+
+#http://localhost:8888/notebooks/recimagens.jpg
+from IPython.display import Image
+Image(url = 'recimagens.jpg')
+
+# Parâmetros de arquivo
+arquivo_parametros = 'C:/Users/uesio/haarcascade_frontalface_alt.xml'
+
+# Execução do classificador
+classificador_cascade = cv2.CascadeClassifier(arquivo_parametros)
+
+# Leitura da imagem
+imagem = cv2.imread('recimagens.jpg')
+
+# Conversao da imagem em escala de cinza (grey)
+grayImage = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
+
+# Definicao de parametros 
+faces = classificador_cascade.detectMultiScale(grayImage,  scaleFactor = 1.1, minNeighbors = 10, minSize = (30, 30))
+
+# Aplicacao das regras.
+for(x,y, width, height) in faces:
+    cv2.rectangle(imagem, (x, y), (x+width, y+height), (0,0,255), 10)
+
+# Gravação do resultado
+cv2.imwrite('resultado.jpg', imagem)
+True
+
+from IPython.display import Image
+Image(url = 'resultado.jpg')
+
